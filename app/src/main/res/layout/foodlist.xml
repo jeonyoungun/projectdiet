@@ -5,18 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="401dp"
-        android:layout_height="634dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="408dp"
+        android:layout_height="647dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/totalcal"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/main_btn"
@@ -29,17 +28,6 @@
         app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/generate_btn"
-        android:layout_width="106dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginBottom="20dp"
-        android:text="음식자료생성"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/main_btn"
-        tools:ignore="MissingConstraints" />
-
     <EditText
         android:id="@+id/searchMonth"
         android:layout_width="414dp"
@@ -47,17 +35,31 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="월을 입력하세요"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/recyclerView"
+        app:layout_constraintVertical_bias="0.913"
         tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/monthfood"
         android:layout_width="113dp"
         android:layout_height="43dp"
+        android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:text="달에 먹은 음식"
+        android:text="캘린더"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintStart_toEndOf="@+id/main_btn" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/totalcal"
+        android:layout_width="411dp"
+        android:layout_height="58dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

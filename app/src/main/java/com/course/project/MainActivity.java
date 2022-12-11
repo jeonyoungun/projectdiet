@@ -1,5 +1,7 @@
 package com.course.project;
 
+import static java.lang.Integer.parseInt;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
@@ -18,6 +20,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,10 +34,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Scanner;
 
 import kotlin.text.UStringsKt;
-
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 public class MainActivity extends AppCompatActivity  {
     Button btnCamera;
     ImageView imageView;
@@ -42,17 +55,15 @@ public class MainActivity extends AppCompatActivity  {
     Double longitude;
     Bitmap imageBitmap;
     Drawable drawable;
+
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button foodlist_btn = findViewById(R.id.foodlist_btn);
-        foodlist_btn.setOnClickListener(view -> {
-            Intent intent = new Intent(getApplicationContext(), foodlist.class);
-            startActivity(intent);
-        });
+
         Button googlemap_btn = findViewById(R.id.googlemap_btn);
         googlemap_btn.setOnClickListener(view -> {
             Intent intent = new Intent(getApplicationContext(), googlesmap.class);
@@ -79,7 +90,29 @@ public class MainActivity extends AppCompatActivity  {
                     break;
         }});
         Button foodinfo_btn = findViewById(R.id.foodinfo_btn);
-        foodinfo_btn.setOnClickListener(this::onClick);
+        foodinfo_btn.setOnClickListener(view -> {
+            String Foodname = ((EditText) findViewById(R.id.editText1)).getText().toString();
+            String Foodnum = ((EditText) findViewById(R.id.editText2)).getText().toString();
+            String Foodfeel = ((EditText) findViewById(R.id.editText3)).getText().toString();
+            String Eattime = ((EditText) findViewById(R.id.editText4)).getText().toString();
+            Double latitude1 = latitude; // 위도
+            Double longitude1 = longitude; // 경도
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            byte[] byteArray = stream.toByteArray();
+            ((globalfood)this.getApplication()).setfoodnames(Foodname);
+            ((globalfood)this.getApplication()).setfoodnumses(Foodnum);
+            ((globalfood)this.getApplication()).setfoodfeels(Foodfeel);
+            ((globalfood)this.getApplication()).seteattimes(Eattime);
+            ((globalfood)this.getApplication()).setlatitudes(latitude1);
+            ((globalfood)this.getApplication()).setlongitudes(longitude1);
+            ((globalfood)this.getApplication()).setarrs(byteArray);
+            ((globalfood)this.getApplication()).viewaddnum();
+            Intent intent = new Intent(getApplicationContext(), foodlist.class);
+
+            startActivity(intent);
+        });
 
     }
     @Override
@@ -93,26 +126,4 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    private void onClick(View view) {
-        String Foodname = ((EditText) findViewById(R.id.editText1)).getText().toString();
-        String Foodnum = ((EditText) findViewById(R.id.editText2)).getText().toString();
-        String Foodfeel = ((EditText) findViewById(R.id.editText3)).getText().toString();
-        String Eattime = ((EditText) findViewById(R.id.editText4)).getText().toString();
-        Double latitude1 = latitude; // 위도
-        Double longitude1 = longitude; // 경도
-        Intent intent = new Intent(MainActivity.this, foodlist.class);
-        intent.putExtra("위도1", latitude1);
-        intent.putExtra("경도1", longitude1);
-        intent.putExtra("음식이름", Foodname);
-        intent.putExtra("음식개수", Foodnum);
-        intent.putExtra("음식평", Foodfeel);
-        intent.putExtra("먹었었던 시간", Eattime);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        intent.putExtra("음식사진",byteArray);
-
-        startActivity(intent);
-
-    }
 }
